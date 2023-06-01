@@ -11,7 +11,7 @@
     <div class="flex flex-col lg:flex-row">
       <div class="lg:w-2/3 pr-4">
         <!-- Left column content -->
-        <h2 class="text-2xl font-bold mb-4">Experiment: Infinite Monkey Theorem Simulation</h2>
+        <h2 class="text-2xl font-bold mb-4">Experiment: </h2>
         <div>
           <p class="mb-2">Target Text:</p>
           <p class="text-lg font-semibold mb-4">{{ targetText }}</p>
@@ -33,7 +33,7 @@
       </div>
       <div class="lg:w-1/3 mt-8 lg:mt-0">
   <!-- Right column content -->
-  <img src="https://i.gifer.com/origin/d6/d66620ccdb4aee4182879a2c07d393ef_w200.gif" alt="Monkey Typing" />
+  <img src="https://media4.giphy.com/media/pFwRzOLfuGHok/giphy.gif?cid=ecf05e47lr2crdpm9pz7ak2ejbewhhh9pb4j2atmyh7r4guk&ep=v1_gifs_search&rid=giphy.gif&ct=g" alt="Monkey Typing" />
   <div class="mt-4 p-4 bg-gray-100 rounded-lg">
     <p class="text-lg font-semibold mb-2">Highest Scoring Attempt:</p>
     <div class="font-mono" v-if="highestScoringAttempt.generatedText">
@@ -41,7 +41,7 @@
         {{ char }}
       </span>
     </div>
-    <p class="text-sm mt-2">Score: {{ highestScoringAttempt.matchingScore }}%</p>
+    <p class="text-sm mt-2">Macthing Score: {{ highestScoringAttempt.matchingScore }}%</p>
     <p class="text-sm mt-1">Attempt Number: {{ highestScoringAttempt.attemptNumber }}</p>
   </div>
 </div>
@@ -84,6 +84,9 @@ export default {
       },
     };
   },
+  mounted() {
+    this.setMetaTags();
+  },
   methods: {
     generateRandomText(length) {
       const characters =
@@ -111,6 +114,14 @@ export default {
       const matchingScore = (matchingCount / targetLength) * 100;
 
       return matchingScore.toFixed(2); // Round to two decimal places
+    },
+    setMetaTags() {
+      document.title = 'Infinite Monkey Theorem Experiment';
+
+      const descriptionMeta = document.createElement('meta');
+      descriptionMeta.name = 'description';
+      descriptionMeta.content = 'Explore the Infinite Monkey Theorem, a concept in probability theory that suggests monkeys typing randomly on typewriters would eventually reproduce a given text. Experience the simulation and discover the highest scoring attempts.';
+      document.head.appendChild(descriptionMeta);
     },
     simulateTheorem() {
       if (!this.simulationRunning) {
