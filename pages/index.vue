@@ -1,12 +1,8 @@
 <template>
   <div class="container mx-auto px-4 py-8">
-    <marquee class="bg-gray-100 p-4 rounded-lg mb-4" direction="left" behavior="scroll" scrollamount="8">
-      <p class="mb-4" style="display: inline-block; white-space: nowrap;">
-        The Infinite Monkey Theorem is a concept in probability theory that suggests an infinite number of monkeys, randomly pressing keys on typewriters, would eventually type out the complete works of Shakespeare or any other given text. According to the theorem, given enough time, the randomness of the monkeys' key presses would eventually lead to the exact reproduction of any given text, including all the words, punctuation, and formatting. While the probability of a monkey randomly typing out a specific text in a finite amount of time is incredibly low, the theorem demonstrates the concept of probability and the potential outcomes over an infinite time frame.
-      </p>
-    </marquee>
+    <ScrollingMarquee />
 
-    <h1 class="text-3xl font-bold mb-8">Case Study: Infinite Monkey Theorem</h1>
+    <h1 class="text-3xl font-bold mb-8">Infinite Monkey Theorem Experiment</h1>
 
     <div class="flex flex-col lg:flex-row">
       <div class="lg:w-2/3 pr-4">
@@ -32,41 +28,36 @@
         </div>
       </div>
       <div class="lg:w-1/3 mt-8 lg:mt-0">
-  <!-- Right column content -->
-  <img src="https://media4.giphy.com/media/pFwRzOLfuGHok/giphy.gif?cid=ecf05e47lr2crdpm9pz7ak2ejbewhhh9pb4j2atmyh7r4guk&ep=v1_gifs_search&rid=giphy.gif&ct=g" alt="Monkey Typing" />
-  <div class="mt-4 p-4 bg-gray-100 rounded-lg">
-    <p class="text-lg font-semibold mb-2">Highest Scoring Attempt:</p>
-    <div class="font-mono" v-if="highestScoringAttempt.generatedText">
-      <span v-for="(char, index) in highestScoringAttempt.generatedText" :key="index" :style="{ background: char === targetText.charAt(index) ? 'lightgreen' : 'transparent' }">
-        {{ char }}
-      </span>
-    </div>
-    <p class="text-sm mt-2">Macthing Score: {{ highestScoringAttempt.matchingScore }}%</p>
-    <p class="text-sm mt-1">Attempt Number: {{ highestScoringAttempt.attemptNumber }}</p>
-  </div>
-</div>
-
-
-
-
-    </div>
-    <footer class="mt-8 py-4 bg-gray-200 text-center">
-      <div class="flex items-center justify-center">
-        <a href="https://github.com/paulchrisluke/Infinite-Monkey-Theorem-Simulation.git" aria-label="GitHub" class="footer-octicon" title="GitHub">
-          <svg aria-hidden="true" class="octicon octicon-mark-github" height="24" version="1.1" viewBox="0 0 16 16" width="24">
-            <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
-          </svg>
-        </a>
-        <a class="text-gray-600 hover:text-gray-800 ml-2" href="https://github.com/paulchrisluke/Infinite-Monkey-Theorem-Simulation.git" target="_blank" rel="noopener noreferrer">
-          Proudly Open Source
-        </a>
+        <!-- Right column content -->
+        <img src="https://media4.giphy.com/media/pFwRzOLfuGHok/giphy.gif?cid=ecf05e47lr2crdpm9pz7ak2ejbewhhh9pb4j2atmyh7r4guk&ep=v1_gifs_search&rid=giphy.gif&ct=g" alt="Monkey Typing" />
+        <div class="mt-4 p-4 bg-gray-100 rounded-lg">
+          <p class="text-lg font-semibold mb-2">Highest Scoring Attempt:</p>
+          <div class="font-mono" v-if="highestScoringAttempt.generatedText">
+            <span v-for="(char, index) in highestScoringAttempt.generatedText" :key="index" :style="{ background: char === targetText.charAt(index) ? 'lightgreen' : 'transparent' }">
+              {{ char }}
+            </span>
+          </div>
+          <p class="text-sm mt-2">Matching Score: {{ highestScoringAttempt.matchingScore }}%</p>
+          <p class="text-sm mt-1">Attempt Number: {{ highestScoringAttempt.attemptNumber }}</p>
+        </div>
       </div>
-    </footer>
+    </div>
+
+    <AcademicPaper />
+    <Footer />
   </div>
 </template>
 
 <script>
+import AcademicPaper from "@/components/AcademicPaper.vue";
+import ScrollingMarquee from "@/components/ScrollingMarquee.vue";
+import Footer from "@/components/Footer.vue";
+
+
 export default {
+  components: {
+    AcademicPaper,
+  },
   data() {
     return {
       targetText: "To be or not to be, that is the question.",
@@ -83,9 +74,6 @@ export default {
         matchingScore: 0,
       },
     };
-  },
-  mounted() {
-    this.setMetaTags();
   },
   methods: {
     generateRandomText(length) {
@@ -114,14 +102,6 @@ export default {
       const matchingScore = (matchingCount / targetLength) * 100;
 
       return matchingScore.toFixed(2); // Round to two decimal places
-    },
-    setMetaTags() {
-      document.title = 'Infinite Monkey Theorem Experiment';
-
-      const descriptionMeta = document.createElement('meta');
-      descriptionMeta.name = 'description';
-      descriptionMeta.content = 'Explore the Infinite Monkey Theorem, a concept in probability theory that suggests monkeys typing randomly on typewriters would eventually reproduce a given text. Experience the simulation and discover the highest scoring attempts.';
-      document.head.appendChild(descriptionMeta);
     },
     simulateTheorem() {
       if (!this.simulationRunning) {
